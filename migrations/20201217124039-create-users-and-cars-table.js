@@ -1,6 +1,31 @@
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('items', {
+    await queryInterface.createTable('users', {
+      id: {
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true,
+        type: Sequelize.INTEGER,
+      },
+      username: {
+        type: Sequelize.STRING,
+      },
+      password: {
+        type: Sequelize.STRING,
+      },
+      email: {
+        type: Sequelize.STRING,
+      },
+      created_at: {
+        allowNull: false,
+        type: Sequelize.DATE,
+      },
+      updated_at: {
+        allowNull: false,
+        type: Sequelize.DATE,
+      },
+    });
+    await queryInterface.createTable('cars', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -10,30 +35,14 @@ module.exports = {
       name: {
         type: Sequelize.STRING,
       },
-      description: {
-        type: Sequelize.STRING,
+      details: {
+        type: Sequelize.TEXT,
       },
       price: {
         type: Sequelize.DECIMAL(10, 2),
       },
-      created_at: {
-        allowNull: false,
-        type: Sequelize.DATE,
-      },
-      updated_at: {
-        allowNull: false,
-        type: Sequelize.DATE,
-      },
-    });
-    await queryInterface.createTable('orders', {
-      id: {
-        allowNull: false,
-        autoIncrement: true,
-        primaryKey: true,
-        type: Sequelize.INTEGER,
-      },
-      total: {
-        type: Sequelize.DECIMAL(10, 2),
+      isAvailable: {
+        type: Sequelize.BOOLEAN,
       },
       created_at: {
         allowNull: false,
@@ -44,28 +53,27 @@ module.exports = {
         type: Sequelize.DATE,
       },
     });
-    await queryInterface.createTable('order_items', {
-      id: {
-        allowNull: false,
-        autoIncrement: true,
-        primaryKey: true,
-        type: Sequelize.INTEGER,
+
+    await queryInterface.createTable('bookings', {
+      start_date: {
+        type: Sequelize.DATE,
       },
-      quantity: {
-        type: Sequelize.INTEGER,
+      end_date: {
+        type: Sequelize.DATE,
       },
-      order_id: {
+      rent_status: {
+        type: Sequelize.ENUM('booked,cancelled,available,completed'),
+      },
+      user_id: {
         type: Sequelize.INTEGER,
         references: {
-          model: 'orders',
-          key: 'id',
+          model: 'users',
         },
       },
-      item_id: {
+      car_id: {
         type: Sequelize.INTEGER,
         references: {
-          model: 'items',
-          key: 'id',
+          model: 'cars',
         },
       },
       created_at: {
@@ -80,6 +88,7 @@ module.exports = {
   },
 
   down: async (queryInterface) => {
-    await queryInterface.dropTable('items');
+    await queryInterface.dropTable('users');
+    await queryInterface.dropTable('cars');
   },
 };

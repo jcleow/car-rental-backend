@@ -1,8 +1,8 @@
 import cookieParser from 'cookie-parser';
 import express from 'express';
 import methodOverride from 'method-override';
-import bindRoutes from './routes.mjs';
 import cors from 'cors';
+import bindRoutes from './routes.mjs';
 
 // Initialise Express instance
 const app = express();
