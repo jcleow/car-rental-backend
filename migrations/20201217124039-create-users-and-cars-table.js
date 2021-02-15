@@ -41,7 +41,7 @@ module.exports = {
       price: {
         type: Sequelize.DECIMAL(10, 2),
       },
-      isAvailable: {
+      is_available: {
         type: Sequelize.BOOLEAN,
       },
       created_at: {
@@ -55,6 +55,12 @@ module.exports = {
     });
 
     await queryInterface.createTable('bookings', {
+      id: {
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true,
+        type: Sequelize.INTEGER,
+      },
       start_date: {
         type: Sequelize.DATE,
       },
@@ -62,7 +68,7 @@ module.exports = {
         type: Sequelize.DATE,
       },
       rent_status: {
-        type: Sequelize.ENUM('booked,cancelled,available,completed'),
+        type: Sequelize.ENUM(['booked', 'cancelled', 'completed']),
       },
       user_id: {
         type: Sequelize.INTEGER,

@@ -9,7 +9,7 @@ module.exports = {
         name: faker.vehicle.model(),
         details: faker.vehicle.vehicle(),
         price: Math.random() * 100,
-        isAvailable: true,
+        is_available: true,
         created_at: new Date(),
         updated_at: new Date(),
       });

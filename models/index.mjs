@@ -1,10 +1,9 @@
 import { Sequelize } from 'sequelize';
 import url from 'url';
 import allConfig from '../config/config.js';
-
-import itemModel from './item.mjs';
-import orderModel from './order.mjs';
-import orderItemModel from './orderItem.mjs';
+import initBookingModel from './booking.mjs';
+import initCarModel from './car.mjs';
+import initUserModel from './user.mjs';
 
 const env = process.env.NODE_ENV || 'development';
 
@@ -33,6 +32,13 @@ if (env === 'production') {
 } else {
   sequelize = new Sequelize(config.database, config.username, config.password, config);
 }
+
+db.Car = initCarModel(sequelize, Sequelize.DataTypes);
+db.User = initUserModel(sequelize, Sequelize.DataTypes);
+db.Booking = initBookingModel(sequelize, Sequelize.DataTypes);
+
+db.User.belongsToMany(db.Car, { through: db.Booking });
+db.Car.belongsToMany(db.User, { through: db.Booking });
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
